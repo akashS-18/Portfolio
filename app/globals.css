@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design Tokens ─────────────────────────────── */
+:root {
+  /* ── Cyber Neon Palette ───────────────────────── */
+  --color-void:        #050510;
+  --color-deep:        #0B0F1E;
+  --color-panel:       #0d1424;
+  --color-cyan:        #00E5FF;
+  --color-purple:      #8A2BE2;
+  --color-green:       #00FFB3;
+  --color-red:         #ff3c3c;
+  --color-orange:      #ff8c00;
+  --color-text:        #E6F1FF;
+  --color-white-80:    rgba(230,241,255,0.80);
+  --color-white-40:    rgba(230,241,255,0.40);
+  --color-white-10:    rgba(230,241,255,0.10);
+
+  --glow-cyan:   0 0 20px rgba(0,229,255,0.6), 0 0 60px rgba(0,229,255,0.2);
+  --glow-purple: 0 0 20px rgba(138,43,226,0.6), 0 0 60px rgba(138,43,226,0.2);
+  --glow-green:  0 0 20px rgba(0,255,179,0.6);
+  --glow-red:    0 0 20px rgba(255,60,60,0.8), 0 0 60px rgba(255,60,60,0.3);
+
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+
+  --ease-ui:        cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-cinematic: cubic-bezier(0.87, 0, 0.13, 1);
+
+  --z-scene:   10;
+  --z-overlay: 50;
+  --z-hud:    100;
+  --z-cursor: 999;
+}
+
+/* ─── Reset ──────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-void);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Hide default cursor everywhere */
+* { cursor: none !important; }
+
+/* ─── Scrollbar ──────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--color-deep); }
+::-webkit-scrollbar-thumb { background: var(--color-cyan); border-radius: 2px; }
+
+/* ─── Typography ─────────────────────────────────── */
+h1, h2, h3, h4 { font-family: var(--font-display); }
+code, pre, .mono { font-family: var(--font-mono); }
+
+/* ─── Glassmorphism ──────────────────────────────── */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-cyan {
+  background: rgba(0, 229, 255, 0.05);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 229, 255, 0.2);
+}
+
+.glass-purple {
+  background: rgba(138, 43, 226, 0.05);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(138, 43, 226, 0.2);
+}
+
+.glass-green {
+  background: rgba(0, 255, 179, 0.05);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 255, 179, 0.2);
+}
+
+/* ─── Glow Utilities ─────────────────────────────── */
+.glow-cyan   { box-shadow: var(--glow-cyan); }
+.glow-purple { box-shadow: var(--glow-purple); }
+.glow-green  { box-shadow: var(--glow-green); }
+.glow-red    { box-shadow: var(--glow-red); }
+
+.text-glow-cyan   { text-shadow: 0 0 10px rgba(0,229,255,0.8), 0 0 30px rgba(0,229,255,0.4); }
+.text-glow-purple { text-shadow: 0 0 10px rgba(138,43,226,0.8), 0 0 30px rgba(138,43,226,0.4); }
+.text-glow-green  { text-shadow: 0 0 10px rgba(0,255,179,0.8), 0 0 30px rgba(0,255,179,0.4); }
+
+/* ─── Neon Grid Background ───────────────────────── */
+.neon-grid {
+  background-color: #0B0F1E;
+  background-image:
+    linear-gradient(rgba(0,229,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ─── Global Keyframe Animations ────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: var(--glow-cyan); opacity: 1; }
+  50%       { box-shadow: 0 0 40px rgba(0,229,255,0.9), 0 0 80px rgba(0,229,255,0.4); opacity: 0.8; }
+}
+
+@keyframes pulse-glow-red {
+  0%, 100% { box-shadow: var(--glow-red); }
+  50%       { box-shadow: 0 0 40px rgba(255,60,60,1.0), 0 0 100px rgba(255,60,60,0.5); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes scan-line {
+  0%   { transform: translateY(-100vh); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes glitch {
+  0%, 100% { transform: translate(0); }
+  10%       { transform: translate(-2px, 1px); }
+  20%       { transform: translate(2px, -1px); }
+  30%       { transform: translate(-1px, 2px); }
+  40%       { transform: translate(1px, -2px); }
+  50%       { transform: translate(-2px, 1px); }
+}
+
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(var(--orbit-r, 150px)) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(var(--orbit-r, 150px)) rotate(-360deg); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes draw-border {
+  from { stroke-dashoffset: var(--perimeter, 1000); }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes particle-drift {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(-100px) translateX(var(--dx, 20px)); opacity: 0; }
+}
+
+@keyframes wave-reveal {
+  0%   { clip-path: ellipse(0% 0% at 50% 50%); }
+  100% { clip-path: ellipse(150% 150% at 50% 50%); }
+}
+
+@keyframes badge-pop {
+  0%   { transform: scale(0.5) rotate(-10deg); opacity: 0; }
+  60%  { transform: scale(1.15) rotate(2deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes counter-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* ─── Utility Animations ─────────────────────────── */
+.animate-float     { animation: float 4s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-spin-slow  { animation: spin-slow 12s linear infinite; }
+.animate-blink      { animation: blink 1s step-start infinite; }
+.animate-glitch     { animation: glitch 0.4s ease-in-out infinite; }
+
+/* ─── Recruiter Mode Overrides ───────────────────── */
+.recruiter-mode .animate-float,
+.recruiter-mode .animate-pulse-glow,
+.recruiter-mode .animate-spin-slow,
+.recruiter-mode .animate-glitch {
+  animation: none !important;
+}
+
+/* ─── Reduced Motion ─────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── Selection ──────────────────────────────────── */
+::selection {
+  background: rgba(138, 43, 226, 0.35);
+  color: #E6F1FF;
+}
